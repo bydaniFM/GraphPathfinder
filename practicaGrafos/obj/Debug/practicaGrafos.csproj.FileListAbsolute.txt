@@ -1,2 +1,3 @@
 C:\Users\Alumno.SENECA-35\Downloads\practicaGrafos\practicaGrafos\bin\Debug\practicaGrafos.exe.config
 C:\Users\dani_\Desktop\Proyectos Visual Studio\practicaGrafos\practicaGrafos\bin\Debug\practicaGrafos.exe.config
+C:\Users\dani_\Desktop\Proyectos Visual Studio\practicaGrafos02\practicaGrafos\bin\Debug\practicaGrafos.exe.config
