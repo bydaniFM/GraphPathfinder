@@ -9,23 +9,39 @@ namespace practicaGrafos {
 
         private Nodo<Informacion> conjunto;
 
-        // Este método elimina el elemento e del conjunto de vértices. En caso de no pertenece al conjunto no hace nada.
+        // Este método elimina el elemento e del conjunto de vértices. En caso de no pertenecer al conjunto no hace nada.
+        // Se comprueba si pertenece en la clase grafo
         public void Borrar(Informacion e) {
-
+            Nodo<Informacion> recorrido = conjunto;
+            Nodo<Informacion> previo = conjunto;
+            int pos = 1;
+            
+            while (!recorrido.darDato().Equals(e)) {
+                recorrido = recorrido.darSiguiente();
+                if (pos != 1)
+                    previo = previo.darSiguiente();
+                pos++;
+            }
+            if (pos == 1) {
+                 conjunto = conjunto.darSiguiente();
+            } else {
+                previo.fijarSiguiente(recorrido.darSiguiente());
+            }
         }
 
         // Construye un conjunto de vértices inicialmente vacío.
+        //FUNCIONA
         public CjtV() {
-            Informacion e = default(Informacion);
-            conjunto = new Nodo<Informacion>(e);
+            this.conjunto = null;
         }
 
         // Constructor de copia.Crea un conjunto nuevo de vértices con todos los elementos del otroConjunto.
         public CjtV(CjtV<Informacion> otroConjunto) {
-            conjunto = otroConjunto.conjunto;
+            this.conjunto = otroConjunto.conjunto;
         }
 
         // Este método devuelve true si el conjunto no almacena ningún vértice, false en otro caso.
+        //FUNCIONA
         public bool EsVacio() {
             if (conjunto == null)
                 return true;
@@ -33,39 +49,71 @@ namespace practicaGrafos {
                 return false;
         }
 
-        //Devuelve el número de vértices que hay en el conjunto. Si el conjunto está vacío devuelve 0.
+        // Devuelve el número de vértices que hay en el conjunto. Si el conjunto está vacío devuelve 0.
+        //FUNCIONA
         public int GetNumeroVertices() {
+            Nodo<Informacion> recorrido = conjunto;
             int contador = 0;
 
-            while (conjunto != null) {
+            while (recorrido != null) {
                 contador++;
-                conjunto = conjunto.darSiguiente();
+                recorrido = recorrido.darSiguiente();
             }
-
             return contador;
         }
 
         // Añade el elemento e al conjunto de vértices si no estaba previamente almacenado.
+        //FUNCIONA
         public void Insertar(Informacion e) {
-            while (conjunto != null && conjunto.darDato() != e) {
-                conjunto = conjunto.darSiguiente();
+            if (!this.Pertenece(e)) {
+                Nodo<Informacion> n = new Nodo<Informacion>(e, conjunto);
+                this.conjunto = n;
             }
-            conjunto.fijarSiguiente(e);
         }
 
         // Este método devuelve un array con los valores almacenados en el conjunto de vértices.
+        //FUNCIONA
         public Informacion[] ObtenerVertices() {
-            throw new NotImplementedException();
+            Nodo<Informacion> recorrido = conjunto;
+            int nv = this.GetNumeroVertices();
+            Informacion[] array = new Informacion[nv];
+            for (int i = 0; i < nv; i++) {
+                array[i] = recorrido.darDato();
+                recorrido = recorrido.darSiguiente();
+            }
+            return array;
         }
 
         // Devuelve true si e está almacenado en el conjunto de vértices, false en otro caso.
+        //FUNCIONA
         public bool Pertenece(Informacion e) {
-            throw new NotImplementedException();
+            Nodo<Informacion> recorrido = conjunto;
+            bool pertenece = false;
+            while (recorrido != null && !pertenece) {
+                if (recorrido.darDato().Equals(e)) {
+                    pertenece = true;
+                } else {
+                    recorrido = recorrido.darSiguiente();
+                }
+            }
+            return pertenece;
         }
 
         // Devuelve una cadena de texto con el contenido del conjunto de vértices de la forma {v1, v2, …, vn}.
-        public string ToString() {
-            throw new NotImplementedException();
+        //FUNCIONA
+        public override string ToString() {
+            Nodo<Informacion> recorrido = conjunto;
+            string cadenaVertices = "Vertices: {";
+            int nv = this.GetNumeroVertices();
+            for (int i = 0; i < nv; i++) {
+                if (i != nv - 1)
+                    cadenaVertices = string.Concat(cadenaVertices, recorrido.darDato() + ", ");
+                else
+                    cadenaVertices = string.Concat(cadenaVertices, recorrido.darDato());
+                recorrido = recorrido.darSiguiente();
+            }
+            cadenaVertices = string.Concat(cadenaVertices, "}");
+            return cadenaVertices;
         }
     }
 }
